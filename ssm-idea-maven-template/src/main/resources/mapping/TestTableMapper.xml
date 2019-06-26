@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.model.TestTableMapper">
+  <resultMap id="BaseResultMap" type="com.test.model.TestTable">
+    <constructor>
+      <idArg column="test_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="test_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="test_gender" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="test_addr" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    test_id, test_name, test_gender, test_addr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from test_table
+    where test_id = #{testId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from test_table
+    where test_id = #{testId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.model.TestTable">
+    insert into test_table (test_id, test_name, test_gender, 
+      test_addr)
+    values (#{testId,jdbcType=INTEGER}, #{testName,jdbcType=VARCHAR}, #{testGender,jdbcType=VARCHAR}, 
+      #{testAddr,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.model.TestTable">
+    insert into test_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="testId != null">
+        test_id,
+      </if>
+      <if test="testName != null">
+        test_name,
+      </if>
+      <if test="testGender != null">
+        test_gender,
+      </if>
+      <if test="testAddr != null">
+        test_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="testId != null">
+        #{testId,jdbcType=INTEGER},
+      </if>
+      <if test="testName != null">
+        #{testName,jdbcType=VARCHAR},
+      </if>
+      <if test="testGender != null">
+        #{testGender,jdbcType=VARCHAR},
+      </if>
+      <if test="testAddr != null">
+        #{testAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.model.TestTable">
+    update test_table
+    <set>
+      <if test="testName != null">
+        test_name = #{testName,jdbcType=VARCHAR},
+      </if>
+      <if test="testGender != null">
+        test_gender = #{testGender,jdbcType=VARCHAR},
+      </if>
+      <if test="testAddr != null">
+        test_addr = #{testAddr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where test_id = #{testId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.model.TestTable">
+    update test_table
+    set test_name = #{testName,jdbcType=VARCHAR},
+      test_gender = #{testGender,jdbcType=VARCHAR},
+      test_addr = #{testAddr,jdbcType=VARCHAR}
+    where test_id = #{testId,jdbcType=INTEGER}
+  </update>
+</mapper>
